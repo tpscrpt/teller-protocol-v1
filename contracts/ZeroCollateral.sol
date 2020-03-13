@@ -53,22 +53,22 @@ contract ZeroCollateralMain {
     Chainlink public oracle;
 
     // borrow count
-    uint256 public borrowCount = 0;
+    uint256 public borrowCount;
 
     // total accrued interest
-    uint256 public totalAccruedInterest = 0;
+    uint256 public totalAccruedInterest;
 
     // last block number of accrued interest
     uint256 public blockAccruedInterest = block.number;
 
     // amount of DAI remaining as unredeemed interest
-    uint256 public unredeemedDAIInterest = 0;
+    uint256 public unredeemedDAIInterest;
 
     // amount of DAI remaining as unredeemed interest
-    uint256 public defaultPool = 0;
+    uint256 public defaultPool;
 
     // amount collateral locked in contract
-    uint256 public collateralLocked = 0;
+    uint256 public collateralLocked;
 
     // interest accrued from lending account
     struct LendAccount {
@@ -76,7 +76,7 @@ contract ZeroCollateralMain {
         uint256 totalAccruedInterest;
     }
 
-    // array of all lending accounts
+    // mapping of lending accounts
     mapping (address => LendAccount) public lenderAccounts;
 
     // borrower account details
@@ -87,7 +87,7 @@ contract ZeroCollateralMain {
         uint256 collateral;
     }
 
-    // array of all borrower accounts
+    // mapping of borrower accounts
     mapping (address => BorrowAccount) public borrowerAccounts;
 
     // data per borrow as struct
@@ -236,7 +236,14 @@ contract ZeroCollateralMain {
         emit CollateralDeposited(msg.sender, amount);
     }
 
-    // NEW FUNCTION - get current state of collateral/loan - is it undercollateralised by x%?
+    // returns the current percentage of collateralisation of a borrower's loan
+    function getCurrentLoanState(address borrower) public view returns (uint256) {
+      uint256 borrowerCollateral = borrowerAccounts[borrower].collateral;
+      uint256 amountOwed = borrows[borrowerAccounts[borrower].lastBorrowId].amountOwed;
+
+      // collateralisation % = (collateral/borrowed)*100
+      return borrowerCollateral.mul(100).div(amountOwed)
+    }
 
     // borrower withdraw collateral
     // liquidate -> anything undercollateralised or expired gets liquidated
@@ -481,8 +488,8 @@ contract ZeroCollateralMain {
         if (borrows[borrowerLastBorrowId].active) {
 
             // set initial redemption pool additional value to zero
-            uint256 unredeemedDAIInterestAddition = 0;
-            uint256 defaultPoolAddition = 0;
+            uint256 unredeemedDAIInterestAddition;
+            uint256 defaultPoolAddition;
 
             // calculate general borrow interest
             uint256 interest = borrows[borrowerLastBorrowId].amountOwedInitial.sub(borrows[borrowerLastBorrowId].amountBorrow);
