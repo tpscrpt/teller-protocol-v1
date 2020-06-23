@@ -103,4 +103,6 @@ interface TokenLoansInterface {
     function loanIDCounter() external view returns (uint256);
 
     function collateralToken() external view returns (address);
+
+    function setPriceOracle(address newPriceOracle) external;
 }

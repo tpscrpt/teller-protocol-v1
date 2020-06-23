@@ -100,4 +100,6 @@ interface EtherLoansInterface {
     function totalCollateral() external view returns (uint256);
 
     function loanIDCounter() external view returns (uint256);
+
+    function setPriceOracle(address newPriceOracle) external;
 }

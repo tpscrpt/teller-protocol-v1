@@ -47,4 +47,6 @@ interface SettingsInterface {
     function pauseLendingPool(address lendingPoolAddress) external;
 
     function unpauseLendingPool(address lendingPoolAddress) external;
+
+    function isAllowed(address anAddress) external view returns (bool);
 }

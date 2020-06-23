@@ -55,6 +55,11 @@ contract Base is Initializable, ReentrancyGuard {
         _;
     }
 
+    modifier whenAllowed(address anAddress) {
+        require(_isAllowed(anAddress), "ADDRESS_ISNT_ALLOWED");
+        _;
+    }
+
     /* Constructor */
 
     /** External Functions */
@@ -75,6 +80,10 @@ contract Base is Initializable, ReentrancyGuard {
 
     function _isPaused() internal view returns (bool) {
         return settings.isPaused();
+    }
+
+    function _isAllowed(address anAddress) internal view returns (bool) {
+        return settings.isAllowed(anAddress);
     }
 
     /** Private functions */

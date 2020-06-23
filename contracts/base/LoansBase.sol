@@ -33,6 +33,16 @@ import "../interfaces/LoanTermsConsensusInterface.sol";
 contract LoansBase is Base {
     using SafeMath for uint256;
 
+    /** Events */
+
+    event PriceOracleUpdated(
+        address indexed sender,
+        address indexed oldPriceOracle,
+        address indexed newPriceOracle
+    );
+
+    /** Properties */
+
     uint256 internal constant ONE_HOUR = 60 * 60;
     uint256 internal constant ONE_DAY = ONE_HOUR * 24;
     uint256 internal constant TEN = 10; // Used to calculate one whole token.
@@ -169,7 +179,7 @@ contract LoansBase is Base {
         isInitialized()
         whenNotPaused()
         whenLendingPoolNotPaused(address(lendingPool))
-        nonReentrant() // TODO Should it be for TokenLoans?
+        nonReentrant()
         isBorrower(loans[loanID].loanTerms.borrower)
     {
         require(
@@ -229,7 +239,7 @@ contract LoansBase is Base {
         isInitialized()
         whenNotPaused()
         whenLendingPoolNotPaused(address(lendingPool))
-        nonReentrant() // TODO Should it be for TokenLoans?
+        nonReentrant()
     {
         // calculate the actual amount to repay
         uint256 toPay = amount;
@@ -280,7 +290,6 @@ contract LoansBase is Base {
         whenLendingPoolNotPaused(address(lendingPool))
         nonReentrant()
     {
-        // TODO Validate allowance amount.
         // calculate the amount of collateral the loan needs in tokens
         uint256 collateralNeededToken = _getCollateralNeededInTokens(
             _getTotalOwed(loanID),
@@ -316,6 +325,24 @@ contract LoansBase is Base {
         lendingPool.liquidationPayment(tokenPayment, msg.sender);
 
         _emitLoanLiquidatedEvent(loanID, msg.sender, loanCollateral, tokenPayment);
+    }
+
+    function setPriceOracle(address newPriceOracle)
+        external
+        isInitialized()
+        whenAllowed(msg.sender)
+    {
+        /*
+        TODO If the commented lines are uncommented, the test ./test/base/TokenLoansInitializeTest.js fails.
+        I guess, it is due the contract is too big. If you use require instead of AddressLib, it throws out of gas too.
+        */
+        //newPriceOracle.requireNotEmpty("PROVIDE_PRICE_ORACLE_ADDRESS");
+        address oldOraclePrice = address(priceOracle);
+        //oldOraclePrice.requireNotEqualTo(newPriceOracle, "NEW_ORACLE_MUST_BE_DIFFERENT");
+
+        priceOracle = PairAggregatorInterface(newPriceOracle);
+
+        //emit PriceOracleUpdated(msg.sender, oldOraclePrice, newPriceOracle);
     }
 
     /** Internal Functions */

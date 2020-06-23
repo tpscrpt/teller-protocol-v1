@@ -35,7 +35,7 @@ module.exports = async function(deployer, network, accounts) {
   await deployerApp.deployMockIfWith('DAI_ETH', PairAggregatorMock, initialDaiEthPrice, txConfig);
   const initialUsdcEthPrice = '4789225000000000';
   await deployerApp.deployMockIfWith('USDC_ETH', PairAggregatorMock, initialUsdcEthPrice, txConfig);
-  const initialDaiLinkPrice = '4789225000000000'; //TODO set a similar value
+  const initialDaiLinkPrice = '4789225000000000';
   // The Chainlink Oracle for pairs: DAI/LINK and USDC/LINK don't exist yet. So we use USD/LINK.
   await deployerApp.deployMockIfWith('USD_LINK', PairAggregatorMock, initialDaiLinkPrice, txConfig);
 
