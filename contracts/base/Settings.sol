@@ -245,6 +245,10 @@ contract Settings is Pausable, SettingsInterface {
         return paused();
     }
 
+    function isAllowed(address anAddress) external view returns (bool) {
+        return isPauser(anAddress);
+    }
+
     /** Internal functions */
 
     /** Private functions */

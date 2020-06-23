@@ -35,6 +35,16 @@ import "../interfaces/LoansInterface.sol";
 contract LoansBase is LoansInterface, Base {
     using SafeMath for uint256;
 
+    /** Events */
+
+    event PriceOracleUpdated(
+        address indexed sender,
+        address indexed oldPriceOracle,
+        address indexed newPriceOracle
+    );
+
+    /** Properties */
+
     uint256 internal constant TEN = 10; // Used to calculate one whole token.
     // Loan length will be inputted in days, with 4 decimal places. i.e. 30 days will be inputted as
     // 300000. Therefore in interest calculations we must divide by 365000
@@ -307,6 +317,24 @@ contract LoansBase is LoansInterface, Base {
         )
     {
         return _getCollateralInfo(loanID);
+    }
+
+    function setPriceOracle(address newPriceOracle)
+        external
+        isInitialized()
+        whenAllowed(msg.sender)
+    {
+        /*
+        TODO If the commented lines are uncommented, the test ./test/base/TokenLoansInitializeTest.js fails.
+        I guess, it is due the contract is too big. If you use require instead of AddressLib, it throws out of gas too.
+        */
+        //newPriceOracle.requireNotEmpty("PROVIDE_PRICE_ORACLE_ADDRESS");
+        address oldOraclePrice = address(priceOracle);
+        //oldOraclePrice.requireNotEqualTo(newPriceOracle, "NEW_ORACLE_MUST_BE_DIFFERENT");
+
+        priceOracle = PairAggregatorInterface(newPriceOracle);
+
+        //emit PriceOracleUpdated(msg.sender, oldOraclePrice, newPriceOracle);
     }
 
     /** Internal Functions */

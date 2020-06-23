@@ -115,4 +115,5 @@ interface LoansInterface {
             uint256 collateralNeededCollateralTokens,
             bool requireCollateral
         );
+    function setPriceOracle(address newPriceOracle) external;
 }
