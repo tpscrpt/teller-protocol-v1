@@ -69,6 +69,12 @@ interface LoansInterface {
         uint256 tokensIn
     );
 
+    event PriceOracleUpdated(
+        address indexed sender,
+        address indexed oldPriceOracle,
+        address indexed newPriceOracle
+    );
+
     function getBorrowerLoans(address borrower) external view returns (uint256[] memory);
 
     function loans(uint256 loanID)
@@ -115,5 +121,6 @@ interface LoansInterface {
             uint256 collateralNeededCollateralTokens,
             bool requireCollateral
         );
+
     function setPriceOracle(address newPriceOracle) external;
 }

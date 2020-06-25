@@ -37,12 +37,6 @@ contract LoansBase is LoansInterface, Base {
 
     /** Events */
 
-    event PriceOracleUpdated(
-        address indexed sender,
-        address indexed oldPriceOracle,
-        address indexed newPriceOracle
-    );
-
     /** Properties */
 
     uint256 internal constant TEN = 10; // Used to calculate one whole token.
@@ -329,7 +323,7 @@ contract LoansBase is LoansInterface, Base {
         I guess, it is due the contract is too big. If you use require instead of AddressLib, it throws out of gas too.
         */
         //newPriceOracle.requireNotEmpty("PROVIDE_PRICE_ORACLE_ADDRESS");
-        address oldOraclePrice = address(priceOracle);
+        //address oldOraclePrice = address(priceOracle);
         //oldOraclePrice.requireNotEqualTo(newPriceOracle, "NEW_ORACLE_MUST_BE_DIFFERENT");
 
         priceOracle = PairAggregatorInterface(newPriceOracle);
