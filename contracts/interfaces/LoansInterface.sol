@@ -3,6 +3,7 @@ pragma experimental ABIEncoderV2;
 
 import "../util/TellerCommon.sol";
 import "./SettingsInterface.sol";
+import "../util/SettingsConsts.sol";
 
 /**
     @notice This interface defines the functions to work with the Teller loans protocol
@@ -110,6 +111,8 @@ interface LoansInterface {
         address indexed oldPriceOracle,
         address indexed newPriceOracle
     );
+
+    function consts() external view returns (SettingsConsts);
 
     /**
         @notice Returns a list of all loans for a borrower

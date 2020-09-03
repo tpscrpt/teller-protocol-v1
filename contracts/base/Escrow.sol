@@ -36,7 +36,7 @@ import "../util/TellerCommon.sol";
 
     @author develop@teller.finance
  */
-contract Escrow is EscrowInterface, TInitializable, Ownable, BaseUpgradeable, BaseEscrowDapp, SettingsConsts {
+contract Escrow is EscrowInterface, TInitializable, Ownable, BaseUpgradeable, BaseEscrowDapp {
     using Address for address;
     using SafeMath for uint256;
 
@@ -101,7 +101,7 @@ contract Escrow is EscrowInterface, TInitializable, Ownable, BaseUpgradeable, Ba
 
         uint256 collateralValue = getLoan().collateral;
         if (getLoan().loanTerms.collateralRatio > 0) {
-            uint256 bufferPercent = settings().getPlatformSettingValue(COLLATERAL_BUFFER_SETTING);
+            uint256 bufferPercent = settings().getPlatformSettingValue(loans.consts().COLLATERAL_BUFFER_SETTING());
             uint256 buffer = collateralValue * bufferPercent / 10000;
             collateralValue = collateralValue.sub(buffer);
         }

@@ -7,7 +7,7 @@ const settingsNames = require("../utils/platformSettingsNames");
 const { toBytes32 } = require("../utils/consts");
 const { createMocks } = require("../utils/consts");
 const { createTestSettingsInstance } = require("../utils/settings-helper");
-const { encodeLoanParameter } = require("../utils/loans");
+const { encodeLoanParameter, encodeConsts } = require("../utils/loans");
 
 // Mock contracts
 const Mock = artifacts.require("./mock/util/Mock.sol");
@@ -55,13 +55,15 @@ contract("EscrowCalculateTotalValueTest", function(accounts) {
   ) {
     it(t("escrow", "calculateTotalValue", "Should be able to calculate its total value of all assets owned.", false), async function() {
       const tokensAddresses = await createMocks(DAIMock, tokenAmounts.length);
-      await instance.externalSetTokens(tokensAddresses);
 
       const lendingAddress = tokensAddresses[0];
       const collateralAddress = collateralIsEth ? ETH_ADDRESS : (await Mock.new()).address;
 
       const loans = await Mock.new();
-      await instance.mockLoans(loans.address);
+      await loans.givenMethodReturn(
+        loansEncoder.encodeConsts(),
+        encodeConsts(web3)
+      )
       await loans.givenMethodReturnAddress(
         loansEncoder.encodeLendingToken(),
         lendingAddress
@@ -74,6 +76,9 @@ contract("EscrowCalculateTotalValueTest", function(accounts) {
         loansEncoder.encodeLoans(),
         encodeLoanParameter(web3, { collateral: collateralAmount, loanTerms: { collateralRatio } })
       );
+
+      await instance.externalSetTokens(tokensAddresses);
+      await instance.mockLoans(loans.address);
 
       for (let i = 0; i < tokensAddresses.length; i++) {
         await instance.mockValueOfIn(tokensAddresses[i], ETH_ADDRESS, tokenAmounts[i]);

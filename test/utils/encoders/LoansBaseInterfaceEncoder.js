@@ -6,6 +6,10 @@ class LoansBaseInterfaceEncoder {
     }
 }
 
+LoansBaseInterfaceEncoder.prototype.encodeConsts = function() {
+    return encode(this.web3, 'consts()');
+}
+
 LoansBaseInterfaceEncoder.prototype.encodeCollateralToken = function() {
     return encode(this.web3, 'collateralToken()');
 }
