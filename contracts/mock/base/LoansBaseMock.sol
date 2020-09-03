@@ -8,6 +8,10 @@ import "../../base/LoansBase.sol";
 contract LoansBaseMock is LoansBase, BaseMock {
     mapping(uint256 => TellerCommon.LoanCollateralInfo) internal mockCollateralInfo;
 
+    constructor() public {
+        consts = new SettingsConsts();
+    }
+
     function _payOutCollateral(uint256 loanID, uint256 amount, address payable recipient)
         internal
     {}
