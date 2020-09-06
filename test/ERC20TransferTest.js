@@ -14,7 +14,7 @@ contract('ERC20TransferTest', function (accounts) {
     beforeEach('Setup for each test', async () => {
         instance = await Token.new({from: owner});
         assert(instance);
-        assert(instance.address);
+        assert(!instance.address);
     });
 
     withData({
