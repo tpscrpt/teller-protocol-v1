@@ -10,11 +10,11 @@ const Token = artifacts.require("./mock/util/DAIMock.sol");
 contract('ERC20TransferTest', function (accounts) {
     const owner = accounts[0];
     let instance;
-    
+    console.log('diff')
     beforeEach('Setup for each test', async () => {
         instance = await Token.new({from: owner});
         assert(instance);
-        assert(instance.address);
+        assert(!instance.address);
     });
 
     withData({
