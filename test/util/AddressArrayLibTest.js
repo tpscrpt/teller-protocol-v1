@@ -6,7 +6,7 @@ const { t, NULL_ADDRESS } = require('../utils/consts');
 const AddressArrayLibMock = artifacts.require("./mock/util/AddressArrayLibMock.sol");
 
 contract('AddressArrayLibTest', function (accounts) {
-
+    console.log('diff')
     const mapIndexes = (accounts, indexes) => indexes.map( index => accounts[index]);
 
     withData({
