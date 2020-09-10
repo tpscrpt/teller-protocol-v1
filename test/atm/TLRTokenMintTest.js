@@ -3,7 +3,7 @@ const withData = require('leche').withData;
 const { t, NULL_ADDRESS  } = require('../utils/consts');
 const IATMSettingsEncoder = require('../utils/encoders/IATMSettingsEncoder');
 const SettingsInterfaceEncoder = require('../utils/encoders/SettingsInterfaceEncoder');
-
+// diff
 // Mock contracts
 const Mock = artifacts.require("./mock/util/Mock.sol");
 
