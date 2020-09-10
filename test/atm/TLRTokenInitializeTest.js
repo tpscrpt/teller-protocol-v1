@@ -3,7 +3,7 @@ const IATMSettingsEncoder = require("../utils/encoders/IATMSettingsEncoder");
 const { createTestSettingsInstance } = require("../utils/settings-helper");
 const withData = require('leche').withData;
 const { t } = require('../utils/consts');
-
+// diff
 // Mock contracts
 const Mock = artifacts.require("./mock/util/Mock.sol");
 
