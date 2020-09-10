@@ -5,7 +5,7 @@ const { t } = require("../utils/consts");
 const { atmFactory } = require('../utils/events');
 const LogicVersionsRegistryEncoder = require('../utils/encoders/LogicVersionsRegistryEncoder');
 const SettingsInterfaceEncoder = require('../utils/encoders/SettingsInterfaceEncoder');
-
+console.log('diff');
 // Mock contracts
 const Mock = artifacts.require("./mock/util/Mock.sol");
 
