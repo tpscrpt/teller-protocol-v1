@@ -1,5 +1,6 @@
 pragma solidity 0.5.17;
 
+// diff
 contract Migrations {
     address public owner;
     uint256 public lastCompletedMigration;
