@@ -17,7 +17,7 @@ const Mock = artifacts.require("./mock/util/Mock.sol");
 
 // Smart contracts
 const ATMGovernance = artifacts.require("./atm/ATMGovernance.sol");
-
+console.log('changed')
 contract('ATMGovernanceAddAssetMarketSettingTest', function (accounts) {
     const owner = accounts[0];
     let instance;
