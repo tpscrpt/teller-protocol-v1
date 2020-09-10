@@ -9,6 +9,7 @@ jobs:
   test:
     name: Build Project
     runs-on: ubuntu-latest
+    continue-on-error: true
     env:
       INFURA_KEY: my-infura-key-here
       GAS_PRICE_GWEI_KEY: 20
